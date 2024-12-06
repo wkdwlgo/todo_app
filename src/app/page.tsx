@@ -1,101 +1,100 @@
+"use client";
+
 import Image from "next/image";
+import NoTodo from "../../components/no_todo";
+import NoDone from "../../components/no_done"
+import Todo from "../../components/todo";
+import Done from "../../components/done";
+import { todoAPI } from "../../lib/api/todo";
+import { useEffect,useState } from "react";
+import { Todo_type } from "../../lib/types/todo_type";
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+  const [todos, setTodos] = useState<Todo_type[]>([]);
+  const [dones, setDones]=useState<Todo_type[]>([]);
+  const [inputValue,setInputValue] = useState('');
+
+  //todos 항목 get
+  useEffect(() => {
+    const getTodos = async () => {
+      try {
+        const data = await todoAPI.fetchTodos();
+        const { uncompleted, completed } = isDone(data);;
+        setTodos(uncompleted);
+        setDones(completed);
+      } catch (error) {
+        console.error("Failed to fetch todos:", error);
+      }
+    };
+    getTodos();
+  }, []);
+
+
+  //api로 가져온 data를 dones와 todos로 나눠줄 함수 
+  const isDone = (data: Todo_type[]) => {
+    const uncompleted = data.filter((item) => !item.completed); 
+    const completed = data.filter((item) => item.completed);   
+    return { uncompleted, completed };
+  };
+
+  // console.log(todos);
+  // console.log(dones);
+
+  //input 필드 입력 받고 inputValue 상태 변경 
+  const handleChange = (e:React.ChangeEvent<HTMLInputElement>) =>{
+    setInputValue(e.target.value);
+  };
+
+  //button 클릭 후 inputValue를 post 
+  const addTodo =async(e: React.MouseEvent<HTMLButtonElement>)=>{
+    e.preventDefault();
+
+    if (!inputValue.trim()) {
+      alert("할 일을 입력해주세요!");
+      return;
+    }
+    try{
+      const newTodo= await todoAPI.addTodo(inputValue);
+      setTodos((prevTodos) => [...prevTodos, newTodo]);
+      setInputValue("");
+    }catch(error){
+      console.error("할일 추가 실패:", error);
+      alert("할 일을 추가하는 데 실패했습니다.");
+    }
+  };
+  
+
+  return (
+  <div className="pt-5 justify-center items-center px-5">
+    <div className="flex justify-between  pb-4">
+    <input type="text" placeholder="할 일을 입력해주세요" value={inputValue} onChange={handleChange} className="todo_input pl-5"/>
+    <button onClick={addTodo}><Image src={todos.length > 0 || dones.length > 0 
+        ? "/Type=Active,Size=Small.png"
+        : "/Type=Add,Size=Small.png"} width={56} height={56} alt="todo add button"></Image></button>
     </div>
+    <div>
+      <div className="py-3">
+        <Image src="/todo.svg" width={101} height={36} alt="todo image" className="pb-2"></Image>
+        {todos.length==0? <NoTodo/>:
+        <ul className="flex flex-col gap-3 pt-2">
+         {todos.map((todo) => (
+          <Todo key={todo.id} todo={todo}/>
+        ))}
+        </ul>
+         }
+      </div>
+      <div className="py-3">
+        <Image src="/done.svg" width={101} height={36} alt="todo image" className="pb-2"></Image>
+        {dones.length==0? <NoDone/>:
+        <ul className="flex flex-col gap-3 pt-2">
+        {dones.map((done) => (
+         <Done key={done.id} done={done} />
+       ))}
+       </ul>
+        }
+      </div>
+    </div>
+  </div>
   );
 }

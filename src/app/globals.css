@@ -1,10 +1,26 @@
+
+@import url('https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css');
+
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
 :root {
-  --background: #ffffff;
   --foreground: #171717;
+  --white: #ffffff;
+  --slate100: #f1f5f9;
+  --slate200: #e2e8f0;
+  --slate300: #cbd5e1;
+  --slate400: #94a3b8;
+  --slate500: #64748b;
+  --slate800: #1e293b;
+  --slate900: #0f172a;
+  --violet100: #ede9fe;
+  --violet600: #7c3aed;
+  --rose500:#f43f5e;
+  --lime300:#bef264;
+  --amber800: #92400e;
+  
 }
 
 @media (prefers-color-scheme: dark) {
@@ -14,8 +30,45 @@
   }
 }
 
+
+*{
+  box-sizing: border-box;
+}
+
 body {
   color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--slate100);
+  font-family: 'NanumSquare', sans-serif;
 }
+
+header{
+  background: var(--white);
+
+}
+p{
+  color: var(--slate400);
+}
+
+.todo_title{
+  color: var(--foreground);
+
+}
+
+.todo_box{
+  background-color: var(--white);
+  border-radius: 20px;
+  border: solid 1px var(--background);
+  padding-left: 10px;
+
+}
+
+.todo_input{
+  background-image: url("/Type=search,Size=small.png");
+  background-repeat: no-repeat;
+  width: 279px;
+  height: 56px;
+  background-color: var(--slate100);
+  border-radius: 22;
+  
+}
+
