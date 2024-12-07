@@ -33,13 +33,12 @@ export default function Home() {
 
   //api로 가져온 data를 dones와 todos로 나눠줄 함수 
   const isDone = (data: Todo_type[]) => {
-    const uncompleted = data.filter((item) => !item.completed); 
-    const completed = data.filter((item) => item.completed);   
+    const uncompleted = data.filter((item) => !item.isCompleted); 
+    const completed = data.filter((item) => item.isCompleted);   
     return { uncompleted, completed };
   };
 
-  // console.log(todos);
-  // console.log(dones);
+
 
   //input 필드 입력 받고 inputValue 상태 변경 
   const handleChange = (e:React.ChangeEvent<HTMLInputElement>) =>{
@@ -64,6 +63,31 @@ export default function Home() {
     }
   };
   
+  //상태 변경 함수 
+  const handleComplete = async (todo: Todo_type) => {
+    try {
+      // `isCompleted` 상태 변경 데이터
+      const updatedData = {
+        isCompleted: !todo.isCompleted, // 상태를 완료로 변경
+      };
+      console.log(updatedData);
+      // API 호출
+      const updatedTodo = await todoAPI.updateCompleteTodo(todo.id.toString(), updatedData);
+  
+      // 상태 업데이트
+    if (updatedTodo.isCompleted) {
+      // 완료 상태로 변경된 경우
+      setTodos((prev) => prev.filter((item) => item.id !== todo.id)); 
+      setDones((prev) => [...prev, updatedTodo]); 
+    } else {
+      // 미완료 상태로 변경된 경우
+      setDones((prev) => prev.filter((item) => item.id !== todo.id)); 
+      setTodos((prev) => [...prev, updatedTodo]);
+    }
+  } catch (error) {
+    console.error("Failed to update todo:", error);
+  }
+};
 
   return (
   <div className="pt-5 justify-center items-center px-5">
@@ -79,7 +103,7 @@ export default function Home() {
         {todos.length==0? <NoTodo/>:
         <ul className="flex flex-col gap-3 pt-2">
          {todos.map((todo) => (
-          <Todo key={todo.id} todo={todo}/>
+          <Todo key={todo.id} todo={todo} onComplete={handleComplete}/>
         ))}
         </ul>
          }
@@ -89,7 +113,7 @@ export default function Home() {
         {dones.length==0? <NoDone/>:
         <ul className="flex flex-col gap-3 pt-2">
         {dones.map((done) => (
-         <Done key={done.id} done={done} />
+         <Done key={done.id} done={done} onComplete={handleComplete}/>
        ))}
        </ul>
         }
