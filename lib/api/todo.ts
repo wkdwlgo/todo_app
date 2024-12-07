@@ -28,9 +28,14 @@ export const todoAPI ={
       },
 
       //항목 상세 조회(get)
-      fetchTodosDetail: async(id:string): Promise<Todo_type> =>{
-        const response = await axios.get(`${BASE_URL}/items/${id}`);
-        return response.data;
+      fetchTodosDetail: async (id: string): Promise<Todo_type> => {
+        try {
+          const response = await axios.get(`${BASE_URL}/items/${id}`);
+          return response.data;
+        } catch (error) {
+          console.error("Failed to fetch todo detail:", error); // 에러 로그
+          throw error; // 에러를 다시 던져서 호출부에서 처리
+        }
       },
 
 
