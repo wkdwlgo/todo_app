@@ -14,7 +14,11 @@ export default function Todo({todo, onComplete}: TodoProps){
     return(
         <Link href={`/items/${todo.id}`} >
             <div className="todo_box flex border border-black rounded-lg py-2 items-center">
-                <button className="" onClick={()=> onComplete(todo)}>
+                <button className="" onClick={(e)=> {
+                    e.preventDefault();
+                    onComplete(todo)
+                    }}
+                    >
                     <Image src={"/Property1=Default.svg"} width={32} height={32} alt="todo not check image" ></Image>
                 </button>
                 <p className="pl-5 todo_title">

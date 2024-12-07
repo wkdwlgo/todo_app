@@ -76,3 +76,6 @@ p{
   background-color: var(--violet100);
 }
 
+.detail_name_box{
+  border-radius: 22;
+}
