@@ -15,7 +15,7 @@ export const todoAPI ={
         return response.data;
     },
 
-    //항목의 상태변경 수정(patch) 
+    //항목 수정(patch) 
     updateCompleteTodo: async (
         itemId: string,
         updatedData: Partial<Todo_type>
@@ -37,6 +37,30 @@ export const todoAPI ={
           throw error; // 에러를 다시 던져서 호출부에서 처리
         }
       },
+
+    // 사진 이미지 업로드(post)
+    uploadImages: async (file: File): Promise<string | null> => {
+        const formData = new FormData();
+        formData.append("image", file);
+    
+        try {
+          const response = await axios.post(`${BASE_URL}/images/upload`, formData, {
+            headers: {
+              "Content-Type": "multipart/form-data", 
+            },
+          });
+    
+        return response.data?.url || null;
+        } catch (error) {
+            console.error("Failed to upload image:", error);
+            return null;
+        }
+    },
+
+    //항목 삭제
+    deleteTodo: async(id: string): Promise<void> =>{
+        await axios.delete(`${BASE_URL}/items/${id}`);
+    }
 
 
 

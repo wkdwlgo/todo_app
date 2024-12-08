@@ -79,3 +79,17 @@ p{
 .detail_name_box{
   border-radius: 22;
 }
+
+
+.correction_box{
+  height: 100%;
+}
+.correction_name_input{
+  background-color: var(--slate100);
+  text-decoration: underline;
+  font-size: 18px;
+}
+
+.correction_memo_input{
+  background-color: transparent;
+}
