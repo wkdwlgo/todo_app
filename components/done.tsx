@@ -9,19 +9,21 @@ type DoneProps = {
 
 export default function Done({done,onComplete}:DoneProps){
     return(
-        <Link href={`/items/${done.id}`} >
-            <div className="done_box todo_box flex border border-black py-2 items-center">
-            <button className="" onClick={(e)=> {
-                    e.preventDefault();
-                    onComplete(done)
-                    }}
-                    >
-                    <Image src={"/Property1=Done.svg"} width={32} height={32} alt="todo check image" ></Image>
-                </button>
-                <p className="done_title todo_title pl-3 ">
-                    <del>{done.name}</del>
-                </p>
-            </div>
-        </Link>
+        <div className="todo_div border-solid border-black border-2">
+            <Link href={`/items/${done.id}`} >
+                <div className="todo_box flex py-2 items-center bg-violet-100">
+                <button className="" onClick={(e)=> {
+                        e.preventDefault();
+                        onComplete(done)
+                        }}
+                        >
+                        <Image src={"/Property1=Done.svg"} width={32} height={32} alt="todo check image" ></Image>
+                    </button>
+                    <p className="done_title todo_title pl-3 ">
+                        <del>{done.name}</del>
+                    </p>
+                </div>
+            </Link>
+        </div>
     )
 }

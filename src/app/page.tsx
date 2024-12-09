@@ -66,21 +66,21 @@ export default function Home() {
   //상태 변경 함수 
   const handleComplete = async (todo: Todo_type) => {
     try {
-      // `isCompleted` 상태 변경 데이터
+    
       const updatedData = {
-        isCompleted: !todo.isCompleted, // 상태를 완료로 변경
+        isCompleted: !todo.isCompleted, 
       };
       console.log(updatedData);
-      // API 호출
+      
       const updatedTodo = await todoAPI.updateCompleteTodo(todo.id.toString(), updatedData);
   
       // 상태 업데이트
     if (updatedTodo.isCompleted) {
-      // 완료 상태로 변경된 경우
+     
       setTodos((prev) => prev.filter((item) => item.id !== todo.id)); 
       setDones((prev) => [...prev, updatedTodo]); 
     } else {
-      // 미완료 상태로 변경된 경우
+      
       setDones((prev) => prev.filter((item) => item.id !== todo.id)); 
       setTodos((prev) => [...prev, updatedTodo]);
     }

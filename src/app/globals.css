@@ -50,16 +50,19 @@ p{
 }
 
 .todo_title{
-  color: var(--foreground);
+  color: var(--slate800);
 
 }
 
-.todo_box{
-  background-color: var(--white);
-  border-radius: 20px;
-  border: solid 1px var(--background);
-  padding-left: 10px;
+.todo_div{
+  border-radius: 22;
+}
 
+.todo_box{
+  border: 1px solid var(--background);
+  border-radius: 22;
+  padding-left: 10px;
+  padding-right: 1px;
 }
 
 .todo_input{
@@ -72,9 +75,6 @@ p{
   
 }
 
-.done_box{
-  background-color: var(--violet100);
-}
 
 .detail_name_box{
   border-radius: 22;
