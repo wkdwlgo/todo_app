@@ -126,41 +126,66 @@ export default function Detail({ params }: TodoDetailProps) {
   return (
     <>
       {detail ? (
-        <div className="correction_box pt-5 pb-20 px-5 flex flex-col justify-center bg-white gap-3">
-            <div className="detail_name_box px-10 py-3 flex items-center justify-center border-solid border-2 border-black">
+
+        <div className="correction_box pt-5 px-5 pb-20 flex flex-col justify-center bg-white gap-3">
+            <div className={`detail_name_box px-10 py-3 flex items-center justify-center border-solid border-2 border-black ${isCompleted? "bg-violet-100":""}`}>
                 <button onClick={handleComplete}>
                 <Image src={isCompleted? "/Property1=Done.svg":"/Property1=Default.svg"} width={32} height={32} alt="isComplete icon"></Image>
                 </button>
                 <input type="text" value={name} onChange={handleChange(setName)} className="correction_name_input pl-5"/>
             </div>
-            <div>
-            <Image src={img || "/img.svg"} width={64} height={64} alt="uploaded image or placeholder"/>
-                <input type = "file" accept = "image/*" className="image_input" onChange={handleFileChange}/>
-                <button>
-                    <Image src={img?'/Type=Edit.svg':"/Type=Plus.svg"} width={64} height={64} alt="plus button img"/>
-                </button>
-            </div>
             
-            <div className="relative w-[311px] h-[343px] flex flex-col justify-center">
+            <div className="file-upload-wrapper relative w-[100%] h-[311px] border-dashed border-2 border-slate-200 flex items-center justify-center bg-slate-100">
+            <div
+  className={`relative flex items-center justify-center ${
+    img ? "w-full h-full" : "w-16 h-16"
+  }`}
+>
+  <Image
+    src={img || "/img.svg"}
+    layout={img ? "fill" : "intrinsic"}
+    width={img ? undefined : 64}
+    height={img ? undefined : 64}
+    className={img ? "object-cover" : ""}
+    alt="uploaded image or placeholder"
+  />
+</div>
+                    {/* 업로드 이미지를 클릭하면 input[type="file"] 트리거 */}
+                <label htmlFor="file-input" className="custom-file-label">
+                    <Image className="absolute bottom-3 right-3 " src={img?'/Type=Edit.svg':"/Type=Plus.svg"} width={64} height={64} alt="plus button img"/>
+                </label>
+                    
+                    {/* 실제 파일 입력 필드 (화면에서 숨김 처리) */}
+                <input 
+                        id="file-input" 
+                        type="file" 
+                        accept="image/*" 
+                        className="hidden-file-input" 
+                        onChange={handleFileChange} 
+                />
+            </div>
+                
+            <div className="memo_box relative w-[100%] flex flex-col">
                 <Image
                     src={"/memo.svg"}
                     alt="memo img"
                     layout="fill"
                     className="object-cover"
                 />
-                <div className="absolute top-10 left-10">
-                    <p className="text-amber-800">Memo</p>
-                    <input
-                    type="text"
+                 <div className="memo_input_box absolute inset-0 flex flex-col justify-center items-center px-5">
+                    <p className="text-amber-800 pb-2">Memo</p>
+                    <textarea
                     value={memo}
-                    onChange={handleChange(setMemo)}
-                    className="correction_memo_input"
+                    onChange={(e) => setMemo(e.target.value)}
+                    className="correction_memo_input resize-none overflow-auto w-full h-[311px] max-h-[200px] p-2"
+                    rows={3}
                     />
                 </div>
             </div>
-            <div className="gap-3 flex justify-center items-center">
+            
+            <div className="gap-3 flex justify-center items-center pt-2">
                 <button  onClick={handleEditDetail}>
-                    <Image src={'/Type=Edit,Size=Large,State=Default.png'} width={168} height={56} alt="not edit button img"/>
+                    <Image src={memo||img?'/Type=Edit,Size=Large,State=Active.png':'/Type=Edit,Size=Large,State=Default.png'} width={168} height={56} alt="not edit button img"/>
                 </button>
                 <button onClick={handelDeleteDetail}>
                     <Image src={'/Type=Delete,Size=Large,State=Default.png'} width={168} height={56} alt="delete button img"/>
