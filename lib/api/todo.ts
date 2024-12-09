@@ -33,8 +33,8 @@ export const todoAPI ={
           const response = await axios.get(`${BASE_URL}/items/${id}`);
           return response.data;
         } catch (error) {
-          console.error("Failed to fetch todo detail:", error); // 에러 로그
-          throw error; // 에러를 다시 던져서 호출부에서 처리
+          console.error("Failed to fetch todo detail:", error); 
+          throw error;
         }
       },
 

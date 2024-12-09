@@ -45,12 +45,13 @@ export default function Detail({ params }: TodoDetailProps) {
     }
   }, [detail]); 
 
-    //input 필드 입력 받고 inputValue 상태 변경 이벤트 핸들러 
+    //inputvalue(name, memo) 상태 변경 이벤트 핸들러
     const handleChange =
         (stateSetter: React.Dispatch<React.SetStateAction<any>>) =>
         (e: React.ChangeEvent<HTMLInputElement>) => {
         stateSetter(e.target.value);
     };
+
     // 상태 변경 이벤트 핸들러
     const handleComplete =()=>{
         setIsCompleted(!isCompleted);
@@ -88,7 +89,7 @@ export default function Detail({ params }: TodoDetailProps) {
   };
 
 
-  //항목 삭제 핸들러 
+  //항목 삭제 이벤트 핸들러 
   const handelDeleteDetail = async() =>{
     try{
         const deleteDetail = await todoAPI.deleteTodo(id.toString());
@@ -101,7 +102,7 @@ export default function Detail({ params }: TodoDetailProps) {
     
   };
 
-
+  //항목 수정 이벤트 핸들러 
   const handleEditDetail = async() =>{
     try{
         const updatedData ={
