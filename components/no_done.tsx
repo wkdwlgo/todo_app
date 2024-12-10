@@ -1,6 +1,7 @@
 import Image from "next/image"
 
 export default function NoDone(){
+    // done 항목이 없을 때 보여주는 default 컴포넌트 
     return(
         <div className="flex flex-col justify-center items-center h-screen">
         <Image src="/Type=Done,Size=Small.svg" width={120} height={120} alt="nodone image" ></Image>

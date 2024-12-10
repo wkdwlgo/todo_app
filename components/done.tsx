@@ -1,7 +1,7 @@
 import Image from "next/image"
 import { Todo_type } from "../lib/types/todo_type"
 import Link from "next/link";
-
+//done의 항목 컴포넌트 
 type DoneProps = {
     done: Todo_type;
     onComplete:(done: Todo_type) =>(void)

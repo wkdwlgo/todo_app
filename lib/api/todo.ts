@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Todo_type } from "../types/todo_type";
 const BASE_URL="https://assignment-todolist-api.vercel.app/api/jisoleil";
-
+//todo API요청 
 export const todoAPI ={
     //항목 조회(get)
     fetchTodos:async(): Promise<Todo_type[]>=>{
