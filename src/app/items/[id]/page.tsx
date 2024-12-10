@@ -18,18 +18,6 @@ export default function Detail({ params }: TodoDetailProps) {
   const [img, setImg] = useState<string | null>(null); 
   const [memo, setMemo] = useState('');
   const [isCompleted, setIsCompleted] = useState(false);
-  const [isDesk, setIsDesk] = useState(false);
-
-  // 화면 크기 감지
-  useEffect(() => {
-    const handleResize = () => {
-      const width = window.innerWidth;
-      setIsDesk(width >= 1024); // 1024px 이상은 데스크탑  
-    };
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
 
   useEffect(() => {
     const getDetail = async () => {
