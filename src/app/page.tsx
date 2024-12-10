@@ -73,12 +73,7 @@ export default function Home() {
     }
   };
 
-  // 엔터키 입력 후 할일 추가 이벤트 리스너 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      addTodo(e as any); 
-    }
-  };
+
 
   //상태 변경 이벤트 핸들러 
   const handleComplete = async (todo: Todo_type) => {
@@ -111,7 +106,6 @@ export default function Home() {
           placeholder="할 일을 입력해주세요"
           value={inputValue}
           onChange={handleChange}
-          onKeyDown={handleKeyDown}
           className="todo_input pl-5"
         />
         {isMobile ? (
