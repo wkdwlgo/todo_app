@@ -19,16 +19,18 @@ export default function Detail() {
   const [isCompleted, setIsCompleted] = useState(false);
 
   useEffect(() => {
-    const getDetail = async () => {
-      try {
-        const data = await todoAPI.fetchTodosDetail(id);
-        setDetail(data);
-      } catch (error) {
-        console.error("Failed to fetch detail:", error);
-      }
-    };
-    getDetail();
-  }, [id]); 
+    if (typeof id === 'string') {
+      const getDetail = async () => {
+        try {
+          const data = await todoAPI.fetchTodosDetail(id);
+          setDetail(data);
+        } catch (error) {
+          console.error("Failed to fetch detail:", error);
+        }
+      };
+      getDetail();
+    }
+  }, [id]);
 
   useEffect(() => {
     if (detail) {
