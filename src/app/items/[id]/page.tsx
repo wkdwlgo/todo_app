@@ -85,6 +85,10 @@ export default function Detail() {
 
   // 항목 삭제 이벤트 핸들러 
   const handelDeleteDetail = async () => {
+    if (!id) {
+        console.error("ID is undefined");
+        return; // ID가 없으면 함수 종료
+      }
     try {
       const deleteDetail = await todoAPI.deleteTodo(id.toString());
       alert("항목이 삭제되었습니다.");
@@ -96,6 +100,10 @@ export default function Detail() {
 
   // 항목 수정 이벤트 핸들러 
   const handleEditDetail = async () => {
+    if (!id) {
+        console.error("ID is undefined");
+        return; // ID가 없으면 함수 종료
+      }
     try {
       const updatedData = {
         name: name,
