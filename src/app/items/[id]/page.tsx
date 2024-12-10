@@ -1,16 +1,16 @@
-"use client";
+"use client"
+import { useParams } from "next/navigation";
 import { useState, useEffect } from "react";
 import { Todo_type } from "../../../../lib/types/todo_type";
 import { todoAPI } from "../../../../lib/api/todo";
 import Image from "next/image";
 import Loading from "../../../../components/loading";
 
-type TodoDetailProps = {
-  params: { id: string };
-};
 
-export default function Detail({ params }: TodoDetailProps) {
-  const { id } = params;  // params에서 직접 id 가져오기
+
+export default function Detail() {
+    const params = useParams();
+    const id = params.id;
   
   const [detail, setDetail] = useState<Todo_type>();
   const [name, setName] = useState('');
@@ -28,7 +28,7 @@ export default function Detail({ params }: TodoDetailProps) {
       }
     };
     getDetail();
-  }, [id]); // id 변경 시마다 데이터 가져오기
+  }, [id]); 
 
   useEffect(() => {
     if (detail) {
@@ -37,26 +37,26 @@ export default function Detail({ params }: TodoDetailProps) {
       setMemo(detail.memo || "");
       setIsCompleted(detail.isCompleted || false);
     }
-  }, [detail]); // detail 상태가 변경될 때마다 상태 업데이트
+  }, [detail]); 
 
-  //이름 상태 변경 이벤트 핸들러
+  //이름 상태 변경 이벤트 핸들러 
   const handleChange = (stateSetter: React.Dispatch<React.SetStateAction<any>>) => (e: React.ChangeEvent<HTMLInputElement>) => {
     stateSetter(e.target.value);
   };
 
-  //현재 상태 변경 이벤트 핸들러
+  //현재 상태 변경 이벤트 핸들러 
   const handleComplete = () => {
     setIsCompleted(!isCompleted);
   };
 
-  //파일 선택 변경 이벤트 핸들러
+  //파일 선택 변경 이벤트 핸들러 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
 
-    //파일이 없다면
+    //파일이 없다면 
     if (!file) return;
 
-    //파일이 영어 이름으로만 되어 있다면
+    //파일이 영어 이름으로만 되어 있다면 
     const isEnglishName = /^[a-zA-Z0-9._-]+$/.test(file.name);
     if (!isEnglishName) {
       alert("파일 이름은 영어로만 이루어져야 합니다.");
@@ -81,7 +81,7 @@ export default function Detail({ params }: TodoDetailProps) {
     }
   };
 
-  // 항목 삭제 이벤트 핸들러
+  // 항목 삭제 이벤트 핸들러 
   const handelDeleteDetail = async () => {
     try {
       const deleteDetail = await todoAPI.deleteTodo(id.toString());
@@ -92,7 +92,7 @@ export default function Detail({ params }: TodoDetailProps) {
     }
   };
 
-  // 항목 수정 이벤트 핸들러
+  // 항목 수정 이벤트 핸들러 
   const handleEditDetail = async () => {
     try {
       const updatedData = {
@@ -110,6 +110,7 @@ export default function Detail({ params }: TodoDetailProps) {
   };
 
   return (
+    //detail 상태를 가져오기 전에 loading 화면을 보여줌 
     <>
       {detail ? (
         <div className="correction_box pt-5 px-5 pb-20 flex flex-col bg-white gap-3 lg:pt-5">
@@ -121,6 +122,7 @@ export default function Detail({ params }: TodoDetailProps) {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+
             <div className="file-upload-wrapper relative w-[100%] h-[311px] border-dashed border-2 border-slate-200 flex items-center justify-center bg-slate-100">
               <div className={`relative flex items-center justify-center ${img ? "w-full h-full" : "w-16 h-16"}`}>
                 <Image src={img || "/img.svg"} layout={img ? "fill" : "intrinsic"} width={img ? undefined : 64} height={img ? undefined : 64} className={img ? "object-cover" : ""} alt="uploaded image or placeholder" />
@@ -137,6 +139,7 @@ export default function Detail({ params }: TodoDetailProps) {
               />
             </div>
 
+            
             <div className="memo_box relative w-[100%] flex flex-col">
               <Image src={"/memo.svg"} alt="memo img" layout="fill" className="object-cover" />
               <div className="memo_input_box absolute inset-0 flex flex-col justify-center items-center px-5">
@@ -151,6 +154,7 @@ export default function Detail({ params }: TodoDetailProps) {
             </div>
           </div>
 
+         
           <div className="gap-3 flex justify-center items-center pt-2">
             <button onClick={handleEditDetail}>
               <Image src={memo || img ? '/Type=Edit,Size=Large,State=Active.png' : '/Type=Edit,Size=Large,State=Default.png'} width={168} height={56} alt="not edit button img" />
@@ -162,7 +166,7 @@ export default function Detail({ params }: TodoDetailProps) {
         </div>
       ) : (
         <div>
-            <Loading />
+            <Loading/>
         </div>
       )}
     </>
