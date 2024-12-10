@@ -58,12 +58,12 @@ p{
 }
 
 .todo_div{
-  border-radius: 22;
+  border-radius: 22px;
 }
 
 .todo_box{
   border: 1px solid var(--background);
-  border-radius: 22;
+  border-radius: 22px;
   padding-left: 10px;
   padding-right: 1px;
 }
@@ -74,13 +74,13 @@ p{
   width: 279px;
   height: 56px;
   background-color: var(--slate100);
-  border-radius: 26;
+  border-radius: 26px;
   
 }
 
 
 .detail_name_box{
-  border-radius: 22;
+  border-radius: 22px;
 }
 
 
@@ -98,7 +98,7 @@ p{
   
 }
 .object-cover{
-  border-radius: 22;
+  border-radius: 22px;
 }
 .correction_memo_input{
   background-color: transparent;
@@ -107,10 +107,10 @@ p{
 }
 
 .upload_img{
-  border-radius: 20;
+  border-radius: 20px;
 }
 .file-upload-wrapper {
-  border-radius: 22;
+  border-radius: 22px;
 }
 
 .custom-file-label {
